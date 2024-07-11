@@ -42,7 +42,7 @@ const TaskList = () => {
 
   return (
     <div className="task-list-container">
-      <h1>Task List</h1>
+      <h1>Task Mnager</h1>
       {!showForm && !showEditForm && (
         <button onClick={handleShowForm}>Add Task</button>
       )}
