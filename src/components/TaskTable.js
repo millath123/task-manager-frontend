@@ -1,4 +1,7 @@
 import React from 'react';
+import { MdOutlineEditNote } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+
 
 const TaskTable = ({ tasks, handleEdit, handleDelete }) => {
   return (
@@ -29,8 +32,8 @@ const TaskTable = ({ tasks, handleEdit, handleDelete }) => {
                 )}
               </td>
               <td data-label="Actions">
-                <button onClick={() => handleEdit(task)}>Edit</button>
-                <button onClick={() => handleDelete(task.id)}>Delete</button>
+                <button onClick={() => handleEdit(task)}><MdOutlineEditNote /></button>
+                <button onClick={() => handleDelete(task.id)}><MdDelete /></button>
               </td>
             </tr>
           ))}
