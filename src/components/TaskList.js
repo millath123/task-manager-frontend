@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddTask from '../components/AddTask';
 import EditTask from '../components/EditTask';
+import TaskTable from '../components/TaskTable';
 import '../style/taskList.css';
 
 const TaskList = () => {
@@ -13,11 +14,11 @@ const TaskList = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const response = await axios.get(`https://trackedge.vercel.app/tasks`);
+      const response = await axios.get('https://trackedge.vercel.app/tasks');
       setTasks(response.data);
     };
     fetchTasks();
-  }, [priority, showForm, showEditForm]);
+  }, []);
 
   const handleShowForm = () => {
     setShowForm(true);
@@ -37,8 +38,11 @@ const TaskList = () => {
     }
   };
 
+  const filteredTasks = tasks.filter(task => priority === 'all' || task.priority === priority);
+
   return (
     <div className="task-list-container">
+      <h1>Task List</h1>
       {!showForm && !showEditForm && (
         <button onClick={handleShowForm}>Add Task</button>
       )}
@@ -50,21 +54,7 @@ const TaskList = () => {
         <option value="medium">Medium</option>
         <option value="high">High</option>
       </select>
-      <ul className="task-list">
-        {tasks
-          .filter((task) => priority === 'all' || task.priority === priority)
-          .sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time))
-          .map((task) => (
-            <li key={task.id}>
-              <h3>{task.heading}</h3>
-              <p>{task.description}</p>
-              <p>{task.date} {task.time}</p>
-              {task.image && <img src={`https://trackedge.vercel.app/${task.image}`} alt="Task" />}
-              <button onClick={() => handleEdit(task)}>Edit</button>
-              <button onClick={() => handleDelete(task.id)}>Delete</button>
-            </li>
-          ))}
-      </ul>
+      <TaskTable tasks={filteredTasks} handleEdit={handleEdit} handleDelete={handleDelete} />
     </div>
   );
 };
